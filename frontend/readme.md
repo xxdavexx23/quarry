@@ -55,9 +55,8 @@ environment variables are always prefixed with `VITE_` in Vue.js applications. T
 
 - **Accessibility:** Make your application accessible to users with disabilities by following best practices for web accessibility. You can use tools like Axe, Lighthouse, or Wave to identify and fix accessibility issues in your application. You can also use ARIA roles, semantic HTML, and other accessibility features to improve the user experience for all users.
 
-- **Documentation:** Document your code, APIs, and architecture to make it easier for other developers to understand and contribute to the project. You can use tools like Swagger, Postman, or Redoc to document your APIs. You can also use tools like JSDoc, VuePress, or Docusaurus to document your code and architecture. I personally prefer JSDoc for documenting JavaScript code and VuePress for documenting Vue.js applications.
+- **Documentation:** Document your code, APIs, and architecture to make it easier for other developers to understand and contribute to the project. You can use tools like Swagger, Postman, or Redoc to document your APIs. You can also use tools like JSDoc, VuePress, or Docusaurus to document your code and architecture. I personally prefer JSDoc for documenting both JavaScript and Vue.js code. It's a great way to keep your codebase well-documented and maintainable.
 
 ### Conclusion
 
 The front-end part of this application is built with Vue.js and is responsible for presenting the user interface and interacting with the middle-tier Flask API to retrieve and display data.
-
