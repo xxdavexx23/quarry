@@ -16,6 +16,6 @@ And you can INSERT example data into the table:
 ...
 ```
 
-This will allow you to fetch data from the `dc_heroes` table using the Flask API and display it in the Vue.js front-end. 
+This will allow you to fetch data from the `dc_heroes` table using the Flask API and display it in the Vue.js front-end.
 
 It is worthy to note that data insertion into the table directly from the database is not the best practice. It is recommended to use a form to insert data into the table. This is just an example to show how to insert data into the table. A form can be created in the front-end to insert data into the table. Data is usually inserted from apps to the database through the API.
