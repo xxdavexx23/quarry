@@ -7,20 +7,30 @@
 // import these features and define them in the setup() function
 // for tables in html, we use the <table> tag to create a table, <tr> tag to define a row, 
 // <th> tag to define a header cell, and <td> tag to define a data cell
+/**
+ * @file HelloWorld.vue
+ * @description This component is designed to fetch and display data in a table format. It utilizes Vue 3's <script setup> syntax for a more concise and readable code structure. The component fetches data from an API on mount and displays it along with a message passed as a prop.
+ */
 
-// Importing necessary Vue composition API feature
+// Importing Vue composition API features and fetchData method
 import { ref, onMounted } from 'vue'
 import { fetchData } from '../fetch';
 
-
-// Defining component props
-// msg prop is used to display a message at the top of the component
+/**
+ * @prop {String} msg - The message to be displayed at the top of the component.
+ */
 defineProps({
   msg: String,
 })
+
+/**
+ * @type {Ref<Array>} data - A reactive reference to the data array fetched from the API.
+ */
 const data = ref([])
 
-// Fetching data from an API
+/**
+ * Fetches data from an API on component mount and updates the `data` ref.
+ */
 onMounted(async () => {
   // Simulating an API request with a delay
   const response = await fetchData()
@@ -28,15 +38,14 @@ onMounted(async () => {
   data.value = response
 })
 
-
 </script>
 
 <template>
-  <!-- The template section is used to define the component's markup -->
+  <!-- The template section defines the component's markup. -->
 
   <!-- Displaying a message passed as a prop to the component -->
   <h1>{{ msg }}</h1>
-  <!-- Data table for displaying superhero characters -->
+  <!-- Data table for displaying fetched data -->
   <table>
     <thead>
       <tr>
@@ -59,9 +68,7 @@ onMounted(async () => {
 h1 {
   color: #42b983; /* Header color set to green */
 }
-.read-the-docs {
-  color: #888; /* Placeholder style for demonstration purposes */
-}
+
 table {
   width: 100%; /* Table width set to 100% of the container */
   border-collapse: collapse;  /* Border collapse to remove default spacing between cells */
@@ -72,5 +79,4 @@ th, td {
   text-align: left; /* Text alignment for table cells */
 }
 </style>
-
 

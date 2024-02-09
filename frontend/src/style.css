@@ -1,79 +1,131 @@
+/* Global styles configuration */
 :root {
+  /* Primary font stack for optimal readability and cross-platform compatibility */
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Default line height for improved text readability */
   line-height: 1.5;
+  /* Default font weight */
   font-weight: 400;
 
+  /* Color scheme support for light and dark modes */
   color-scheme: light dark;
+  /* Default text color with high contrast for readability */
   color: rgba(255, 255, 255, 0.87);
+  /* Background color for the application, chosen for contrast and aesthetic */
   background-color: #242424;
 
+  /* Disables font synthesis for consistent rendering */
   font-synthesis: none;
+  /* Optimize text rendering for legibility */
   text-rendering: optimizeLegibility;
+  /* Smoothens font on webkit browsers */
   -webkit-font-smoothing: antialiased;
+  /* Smoothens font on Firefox (Mac OS) */
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Styling for anchor tags */
 a {
+  /* Increases font weight for emphasis */
   font-weight: 500;
+  /* Primary color for links */
   color: #646cff;
+  /* Inherits text decoration from parent elements for consistency */
   text-decoration: inherit;
 }
+/* Hover state for anchor tags */
 a:hover {
+  /* Darker shade of primary color for visual feedback */
   color: #535bf2;
 }
 
+/* Body styling for global application consistency */
 body {
+  /* Resets margin */
   margin: 0;
+  /* Flex display for center alignment of content */
   display: flex;
-  place-items: center;
+  /* Minimum width to support mobile devices */
   min-width: 320px;
+  /* Ensures full viewport height */
   min-height: 100vh;
 }
 
+/* Header 1 styling */
 h1 {
+  /* Large font size for primary headings */
   font-size: 3.2em;
+  /* Tighter line height for headings */
   line-height: 1.1;
 }
 
+/* Button styling for interactive elements */
 button {
+  /* Rounded corners for aesthetic */
   border-radius: 8px;
+  /* Transparent border by default */
   border: 1px solid transparent;
+  /* Padding for clickable area */
   padding: 0.6em 1.2em;
+  /* Default font size */
   font-size: 1em;
+  /* Font weight for emphasis */
   font-weight: 500;
+  /* Inherits font family from root */
   font-family: inherit;
+  /* Background color for contrast */
   background-color: #1a1a1a;
+  /* Cursor pointer to indicate interactivity */
   cursor: pointer;
+  /* Transition for border color change on hover */
   transition: border-color 0.25s;
 }
+/* Hover state for buttons */
 button:hover {
+  /* Highlight border color on hover for visual feedback */
   border-color: #646cff;
 }
+/* Focus states for accessibility */
 button:focus,
 button:focus-visible {
+  /* Custom focus ring for visibility */
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Card component styling */
 .card {
+  /* Padding for content separation */
   padding: 2em;
 }
 
+/* Application container styling */
 #app {
+  /* Maximum width to maintain readability */
   max-width: 1280px;
+  /* Center alignment */
   margin: 0 auto;
+  /* Padding for content separation */
   padding: 2rem;
+  /* Text alignment for consistency */
   text-align: center;
 }
 
+/* Media query for light color scheme preferences */
 @media (prefers-color-scheme: light) {
   :root {
+    /* Text color for light mode */
     color: #213547;
+    /* Background color for light mode */
     background-color: #ffffff;
   }
+  /* Hover state for anchor tags in light mode */
   a:hover {
+    /* Light mode hover color for links */
     color: #747bff;
   }
+  /* Button styling for light mode */
   button {
+    /* Light mode background color for buttons */
     background-color: #f9f9f9;
   }
 }
