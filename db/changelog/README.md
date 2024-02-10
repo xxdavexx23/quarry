@@ -69,11 +69,11 @@ The databse is created in AWS RDS through the following steps:
 
         ```sql
             CREATE USER 'your_user'@'<ec2_internal_ip>' IDENTIFIED BY 'password';
-            GRANT SELECT ON dcheroes.* TO 'readonly'@'%';
+            GRANT SELECT ON dcheroes.* TO 'your_user'@'<ec2_internal_ip>';
             FLUSH PRIVILEGES;
         ```
 
-    - This will create a new user called `readonly` with the password `password`. The user will have read-only access to the `dcheroes` database.
+    - This will create a new user called `your_user` with the password `password`. The user will have read-only access to the `dcheroes` database.
     - Note that the IP provided is not the public IP of the ec2 instance. It is the internal IP of the ec2 instance. This is because the Flask API will be running on the ec2 instance and will need to connect to the RDS instance. We used the internal IP since both services are running on the same VPC. The VPC is your virtual private cloud. It is a virtual network that is dedicated to your AWS account. It is logically isolated from other virtual networks in the AWS cloud. It is a best practice to use the internal IP of the ec2 instance to connect to the RDS instance. This is because it is more secure than using the public IP of the ec2 instance.
     - Now that the database is set up, you can connect the Flask API to the database.
     - You can confirm that your user is set up by running the following command:
@@ -99,7 +99,7 @@ The databse is created in AWS RDS through the following steps:
     Or in our case:
 
         ```sql
-            mysql+pymysql://readonly:password@<db_endpoint>/dcheroes
+            mysql+pymysql://your_user:password@<db_endpoint>/dcheroes
         ```
 
     - The URI is used to connect to the database from the Flask API. It includes the username, password, endpoint, and database name. This is the URI that will be used to connect to the database from the Flask API. The URI is used to create the database engine in SQLAlchemy. The database engine is used to connect to the database and execute SQL commands. The URI is passed to the `create_engine` function in SQLAlchemy to create the database engine. The database engine is then used to connect to the database and execute SQL commands. This is how the Flask API connects to the database.
