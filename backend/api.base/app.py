@@ -56,7 +56,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize SQLAlchemy with Flask app for ORM
 db = SQLAlchemy(app)
 
-class DCUniverse(db.Model):
+class heroes(db.Model):
     """
     A model representing a DC Universe hero.
 
@@ -68,13 +68,13 @@ class DCUniverse(db.Model):
         to_dict: Returns a dictionary representation of the instance, suitable for JSON conversion.
     """
     id = db.Column(db.Integer, primary_key=True)
-    Hero = db.Column(db.String(255))
+    name = db.Column(db.String(255))
 
     def to_dict(self):
         """Converts the DCUniverse instance into a dictionary."""
         return {
             'id': self.id,
-            'hero': self.Hero
+            'name': self.name
         }
 
 @app.route('/')
@@ -85,7 +85,7 @@ def hello_world():
 @app.route('/data')
 def get_data():
     """Queries all DC Universe heroes from the database and returns them as JSON."""
-    all_data = DCUniverse.query.all()
+    all_data = heroes.query.all()
     return jsonify([data.to_dict() for data in all_data])
 
 if __name__ == '__main__':

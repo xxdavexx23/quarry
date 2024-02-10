@@ -4,7 +4,7 @@
  * @description This is the main Vue application entry file. It imports and utilizes the HelloWorld component to demonstrate component integration within a Vue application.
  * @imports {HelloWorld} from './components/HelloWorld.vue' - Imports HelloWorld Component from the components directory to be used within this Vue application instance.
  */
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <template>
@@ -20,9 +20,10 @@ import HelloWorld from './components/HelloWorld.vue'
       <!-- Vue.js logo as an indicator of the technology stack used. -->
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
+
+    <!-- HelloWorld component integration with a prop passed for demonstration purposes. -->
+    <HelloWorld msg="DC Universe" />
   </div>
-  <!-- HelloWorld component integration with a prop passed for demonstration purposes. -->
-  <HelloWorld msg="DC Universe" />
 </template>
 
 <style scoped>
@@ -34,9 +35,13 @@ import HelloWorld from './components/HelloWorld.vue'
   transition: filter 300ms; /* Smooth transition for filter changes. */
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa); /* Adds a drop shadow effect on hover for the generic logo. */
+  filter: drop-shadow(
+    0 0 2em #646cffaa
+  ); /* Adds a drop shadow effect on hover for the generic logo. */
 }
 .logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa); /* Adds a drop shadow effect on hover specifically for the Vue logo. */
+  filter: drop-shadow(
+    0 0 2em #42b883aa
+  ); /* Adds a drop shadow effect on hover specifically for the Vue logo. */
 }
 </style>

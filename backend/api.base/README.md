@@ -42,6 +42,8 @@ The backend part of this application is developed using Flask. It is responsible
      - Navigate to your project directory and install the project dependencies by executing `pip install -r requirements.txt`. Additionally, install `gunicorn` by running `pip install gunicorn`. Gunicorn is a Python WSGI HTTP Server for UNIX environments. It is chosen for its ability to handle multiple requests simultaneously with its pre-fork worker model, making it vastly superior for production environments compared to the default Flask server, which is designed for development purposes.
    - **Running the Server:** To launch the Flask application on the cloud, use the command `gunicorn --workers 3 --bind 0.0.0.0:5000 app:app`. This command starts the Gunicorn server with three worker processes, hosting our Flask application. The `--bind` option specifies the IP address and port number where Gunicorn will listen for requests, ensuring that the application is accessible over the internet.
    - **Accessing the Application:** With the server running, your application is now accessible at `http://<ec2_public_ip>:5000/`. Replace `<ec2_public_ip>` with the actual public IP address of your EC2 instance. This URL serves as the gateway for users worldwide to interact with your Flask application, hosted securely and efficiently on an AWS EC2 instance. 
+  
+
 
 ### Real-World Scenario: Bind Address, Security Measures, and Authentication
 
@@ -73,6 +75,21 @@ In addition to the above security measures, implementing robust authentication m
 
 By careful selecting the bind address, implementing these security measures, and ensuring robust authentication, you can significantly enhance the security posture of your Flask application in a production environment.
 
+#### AWS: 
+
+- On aws, the public IP of the aws instance currently running 18.234.52.80 (note that this is not an elastic IP).
+- It has two ports open to all network interfaces (0.0.0.0), port 22 for SSH, and port 5000 for the flask server API access. 
+- You can either run gunicorn when you ssh into the machine (You can  use EC2 connect, Putty, or OpenSSH), but since SSH sessions timeout, you can set up a system service where the server can run on boot. This is the recommended professional way since you don't have to worry about ssh disconnections, you simply boot up the instance and the service will start automatically.
+- The username and password assigned to the instance to access the DB have read-only access for now (Refer to teh DB Overview section). 
+
+For persistent access to your application, it's recommended to use an Elastic IP (EIP) with your EC2 instance. An Elastic IP is a static IPv4 address offered by AWS for dynamic cloud computing. Using an EIP can help you manage the mapping of this public IP address to any instance in your VPC, ensuring that the IP address for your application remains unchanged even if you stop and restart your EC2 instance.
+
+#### Setting up an Elastic IP:
+1. **Allocate New Elastic IP:** Navigate to the EC2 dashboard within the AWS Management Console. Under the "Network & Security" section, choose "Elastic IPs". Click "Allocate new address" and follow the prompts to allocate a new Elastic IP to your account.
+2. **Associate Elastic IP with Your Instance:** After allocation, select the newly created Elastic IP from the list and click "Actions". Choose "Associate address" and select your EC2 instance. Confirm the association to ensure that your EC2 instance now uses the Elastic IP.
+3. **Update DNS Records:** If you have a domain name associated with your application, update your DNS records to point to the new Elastic IP. This ensures that your domain name directs traffic to the correct IP address of your EC2 instance.
+
+By following these steps, you can ensure that your application has a persistent public IP address, making it more reliable and accessible to your users.
 
 
 
