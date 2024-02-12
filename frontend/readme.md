@@ -120,7 +120,7 @@ We will deploy the frontend application on the EC2 web server, utilizing Nginx a
 
    - `try_files $uri $uri/ /index.html;`: This directive attempts to serve the requested file or directory. If Nginx cannot find the file or directory, it falls back to serving `/index.html`, enabling SPA (Single Page Application) routing. This is crucial for Vue.js applications, where you want to handle routing on the client side.
 
-4.**Adjusting File Permissions**
+5. **Adjusting File Permissions**
 
    Change the ownership and permissions of the `dist` directory to ensure Nginx can read the files and directories:
 
@@ -136,7 +136,7 @@ We will deploy the frontend application on the EC2 web server, utilizing Nginx a
    sudo systemctl restart nginx
    ```
 
-5.**Configure UFW to Allow Nginx**
+6. **Configure UFW to Allow Nginx**
 
    If you're using UFW, allow Nginx:
 
@@ -144,7 +144,7 @@ We will deploy the frontend application on the EC2 web server, utilizing Nginx a
    sudo ufw allow 'Nginx Full'
    ```
 
-6.**Configuring Security Group in AWS**
+7.**Configuring Security Group in AWS**
    Adjust your EC2 instance's security group settings to allow inbound traffic on port 80 (HTTP) and optionally on port 443 (HTTPS) from your desired sources. This step is performed in the AWS Management Console.
 
 This guide outlines each step required to deploy a Vue.js application on an EC2 instance, from setting up the server with Nginx to ensuring the application is accessible to users. The `vueapp.conf` configuration file plays a crucial role in directing Nginx to serve your Vue.js application correctly, facilitating both the serving of static files and support for SPA routing.
