@@ -81,7 +81,7 @@ The databse is created in AWS RDS through the following steps:
         ```sql
             SELECT user, host FROM mysql.user;
         ```
-    
+
     - Now, on your EC2 instance you can try connecting through the command line:
 
         ```bash
@@ -93,14 +93,15 @@ The databse is created in AWS RDS through the following steps:
 6. **Database Configuration in Flask API:**
     - For your flask server, we are using SQLAlchemy to connect to the database. SQLAlchemy is a popular SQL toolkit and Object-Relational Mapping (ORM) library for Python. It provides a full suite of well-known enterprise-level persistence patterns, designed for efficient and high-performing database access, adapted into a simple and Pythonic domain language. It is particularly useful for the Flask API because it allows us to interact with the database using Python code. The URI for connecting to the database should be in the following format:
 
-        ```sql
+     ```sql
             mysql+pymysql://your_user:password@<db_endpoint>/database_name
-        ```
+    ```
+
     Or in our case:
 
-        ```sql
+    ```sql
             mysql+pymysql://your_user:password@<db_endpoint>/dcheroes
-        ```
+     ```
 
     - The URI is used to connect to the database from the Flask API. It includes the username, password, endpoint, and database name. This is the URI that will be used to connect to the database from the Flask API. The URI is used to create the database engine in SQLAlchemy. The database engine is used to connect to the database and execute SQL commands. The URI is passed to the `create_engine` function in SQLAlchemy to create the database engine. The database engine is then used to connect to the database and execute SQL commands. This is how the Flask API connects to the database.
     Note that it is not recommended to connect the root user to the database from the Flask API.  Instead, you should connect through the read-only user we configured.
