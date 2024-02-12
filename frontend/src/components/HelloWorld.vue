@@ -43,13 +43,14 @@ onMounted(async () => {
     const response = await fetchData();
     // Updating the data with the response from the API
     showError.value = false;
-    data.value = response;
+    data.value = response; // response is in the form of an array of objects with ID and name properties
   } catch (error) {
     console.error("Error fetching data:", error);
     showError.value = true;
   }
 
 });
+
 </script>
 
 <template>
@@ -65,12 +66,12 @@ onMounted(async () => {
       <thead>
         <tr>
           <th>ID</th>
-          <th>Text</th>
+          <th>Name</th>
         </tr>
       </thead>
       <tbody>
         <!-- Dynamically rendering rows based on the data array -->
-        <tr v-for="item in data" :key="item.ID">
+        <tr v-for="item in data" :key="item.id">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
         </tr>

@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 # set the bind address to 0.0.0.0
 # this will allow the container to be accessed from the host machine
 
-load_dotenv()
 """
 This module sets up a Flask application with SQLAlchemy for ORM, CORS for handling cross-origin requests,
 and uses environment variables for configuration. It includes a simple model representing DC Universe heroes
@@ -39,10 +38,6 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import os
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Initialize Flask application and enable CORS
 app = Flask(__name__)
