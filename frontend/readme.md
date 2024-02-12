@@ -57,12 +57,20 @@ environment variables are always prefixed with `VITE_` in Vue.js applications. T
 
 - **Documentation:** Document your code, APIs, and architecture to make it easier for other developers to understand and contribute to the project. You can use tools like Swagger, Postman, or Redoc to document your APIs. You can also use tools like JSDoc, VuePress, or Docusaurus to document your code and architecture. I personally prefer JSDoc for documenting both JavaScript and Vue.js code. It's a great way to keep your codebase well-documented and maintainable.
 
-### Deploying the Application with Nginx on EC2:
-# Deploying a Vue.js Application on AWS EC2 with Nginx
+### Deploying the Application with Nginx on EC2
 
-This guide provides a comprehensive overview of deploying a Vue.js application on an AWS EC2 instance running Ubuntu, utilizing Nginx as the web server. Part of the setup includes creating a configuration file for Nginx to correctly serve the Vue.js application. Here's a detailed explanation of the configuration steps and the significance of each directive within the Nginx configuration file.
+We will deploy the frontend application on the EC2 web server, utilizing Nginx as the web server. Part of the setup includes creating a configuration file for Nginx to correctly serve the Vue.js application.
 
-## 1. Connecting to Your AWS EC2 Instance
+1. **Building the Vue.js Application:**
+   - Run `npm run build` to generate a production-ready build of the Vue.js application.
+   - This will create a `dist` directory containing the static files that need to be served by Nginx.
+   - Secure copy the `dist` directory to your EC2 instance using the `scp` command. For instance, let's say you want to move your dist directory to the home directory of your EC2 instance. You can use the following command:
+
+   ```bash
+   scp -i /path/to/your-key.pem -r /path/to/your/dist <user>@<ec2_public_dns>:/home/ubuntu
+   ```
+
+2. Connecting to Your AWS EC2 Instance
 
 Connect to your EC2 instance via SSH. Replace `your-public-dns-name` with your instance's public DNS and `/path/to/your-key.pem` with the path to your SSH key.
 
@@ -70,7 +78,7 @@ Connect to your EC2 instance via SSH. Replace `your-public-dns-name` with your i
 ssh -i /path/to/your-key.pem ubuntu@your-public-dns-name
 ```
 
-## 2. Installing Nginx on Ubuntu
+3.Installing Nginx on Ubuntu
 
 Update package lists and install Nginx:
 
@@ -79,7 +87,7 @@ sudo apt-get update
 sudo apt-get install nginx -y
 ```
 
-## 3. Configuring Nginx to Serve Your Vue.js Application
+4.Configuring Nginx to Serve Your Vue.js Application
 
 After installing Nginx, the next step is to configure it to serve your Vue.js application. This involves creating a new configuration file in the `/etc/nginx/conf.d/` directory. For this example, we named the file `vueapp.conf`.
 
@@ -114,7 +122,7 @@ server {
   
   - `try_files $uri $uri/ /index.html;`: This directive attempts to serve the requested file or directory. If Nginx cannot find the file or directory, it falls back to serving `/index.html`, enabling SPA (Single Page Application) routing. This is crucial for Vue.js applications, where you want to handle routing on the client side.
 
-## 4. Adjusting File Permissions
+4.Adjusting File Permissions
 
 Change the ownership and permissions of the `dist` directory to ensure Nginx can read the files and directories:
 
@@ -124,7 +132,7 @@ sudo find /home/ubuntu/dist -type d -exec chmod 755 {} \;
 sudo find /home/ubuntu/dist -type f -exec chmod 644 {} \;
 ```
 
-## 5. Opening Firewall (If UFW is Enabled)
+5.Opening Firewall (If UFW is Enabled)
 
 If you're using UFW, allow Nginx:
 
@@ -132,7 +140,7 @@ If you're using UFW, allow Nginx:
 sudo ufw allow 'Nginx Full'
 ```
 
-## 6. Configuring Security Group in AWS
+6.Configuring Security Group in AWS
 
 Adjust your EC2 instance's security group settings to allow inbound traffic on port 80 (HTTP) and optionally on port 443 (HTTPS) from your desired sources. This step is performed in the AWS Management Console.
 
