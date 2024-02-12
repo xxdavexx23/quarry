@@ -70,79 +70,82 @@ We will deploy the frontend application on the EC2 web server, utilizing Nginx a
    scp -i /path/to/your-key.pem -r /path/to/your/dist <user>@<ec2_public_dns>:/home/ubuntu
    ```
 
-2. Connecting to Your AWS EC2 Instance
+2. **Connecting to Your AWS EC2 Instance**
 
-Connect to your EC2 instance via SSH. Replace `your-public-dns-name` with your instance's public DNS and `/path/to/your-key.pem` with the path to your SSH key.
+   Connect to your EC2 instance via SSH. Replace `your-public-dns-name` with your instance's public DNS and `/path/to/your-key.pem` with the path to your SSH key.
 
-```bash
-ssh -i /path/to/your-key.pem ubuntu@your-public-dns-name
-```
+   ```bash
+   ssh -i /path/to/your-key.pem ubuntu@your-public-dns-name
+   ```
 
-3.Installing Nginx on Ubuntu
+3. **Installing Nginx**
 
-Update package lists and install Nginx:
+   Update package lists and install Nginx:
 
-```bash
-sudo apt-get update
-sudo apt-get install nginx -y
-```
+   ```bash
+   sudo apt-get update
+   sudo apt-get install nginx -y
+   ```
 
-4.Configuring Nginx to Serve Your Vue.js Application
+4. **Configuring Nginx to Serve the Vue.js Application**
 
-After installing Nginx, the next step is to configure it to serve your Vue.js application. This involves creating a new configuration file in the `/etc/nginx/conf.d/` directory. For this example, we named the file `vueapp.conf`.
+   After installing Nginx, the next step is to configure it to serve your Vue.js application. This involves creating a new configuration file in the `/etc/nginx/conf.d/` directory. For this example, we named the file `vueapp.conf`.
 
-### Detailed Explanation of `vueapp.conf`
+   ```nginx
+   server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
 
-```nginx
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+      # Server name is optional since you're accessing via IP address
+      # server_name _;
 
-    # Server name is optional since you're accessing via IP address
-    # server_name _;
+      root /home/ubuntu/dist;
+      index index.html;
 
-    root /home/ubuntu/dist;
-    index index.html;
+      location / {
+         try_files $uri $uri/ /index.html;
+      }
+   }
+   ```
 
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-}
-```
+   - `listen 80 default_server;` and `listen [::]:80 default_server;`: These lines tell Nginx to listen on port 80 for IPv4 and IPv6 requests, respectively. The `default_server` parameter designates this server block as the default for requests that do not match any other server blocks.
 
-- `listen 80 default_server;` and `listen [::]:80 default_server;`: These lines tell Nginx to listen on port 80 for IPv4 and IPv6 requests, respectively. The `default_server` parameter designates this server block as the default for requests that do not match any other server blocks.
+   - `# server_name _;`: This line is commented out because the server name is optional when accessing the application via an IP address. If you were using a domain name, you would uncomment this line and replace `_` with your domain name.
 
-- `# server_name _;`: This line is commented out because the server name is optional when accessing the application via an IP address. If you were using a domain name, you would uncomment this line and replace `_` with your domain name.
+   - `root /home/ubuntu/dist;`: Specifies the root directory for requests, which is the location of your Vue.js application's `dist` folder. Nginx will serve files from this directory.
 
-- `root /home/ubuntu/dist;`: Specifies the root directory for requests, which is the location of your Vue.js application's `dist` folder. Nginx will serve files from this directory.
+   - `index index.html;`: Defines `index.html` as the index file. When a directory is requested, Nginx will serve the `index.html` file from that directory.
 
-- `index index.html;`: Defines `index.html` as the index file. When a directory is requested, Nginx will serve the `index.html` file from that directory.
+   - `location / {`: Begins the location block, which is used to define how to respond to requests for resources within the server.
 
-- `location / {`: Begins the location block, which is used to define how to respond to requests for resources within the server.
-  
-  - `try_files $uri $uri/ /index.html;`: This directive attempts to serve the requested file or directory. If Nginx cannot find the file or directory, it falls back to serving `/index.html`, enabling SPA (Single Page Application) routing. This is crucial for Vue.js applications, where you want to handle routing on the client side.
+   - `try_files $uri $uri/ /index.html;`: This directive attempts to serve the requested file or directory. If Nginx cannot find the file or directory, it falls back to serving `/index.html`, enabling SPA (Single Page Application) routing. This is crucial for Vue.js applications, where you want to handle routing on the client side.
 
-4.Adjusting File Permissions
+4.**Adjusting File Permissions**
 
-Change the ownership and permissions of the `dist` directory to ensure Nginx can read the files and directories:
+   Change the ownership and permissions of the `dist` directory to ensure Nginx can read the files and directories:
 
-```bash
-sudo chown -R www-data:www-data /home/ubuntu/dist
-sudo find /home/ubuntu/dist -type d -exec chmod 755 {} \;
-sudo find /home/ubuntu/dist -type f -exec chmod 644 {} \;
-```
+   ```bash
+   sudo chown -R www-data:www-data /home/ubuntu/dist
+   sudo find /home/ubuntu/dist -type d -exec chmod 755 {} \;
+   sudo find /home/ubuntu/dist -type f -exec chmod 644 {} \;
+   ```
 
-5.Opening Firewall (If UFW is Enabled)
+   Now restart Nginx to apply the changes:
 
-If you're using UFW, allow Nginx:
+   ```bash
+   sudo systemctl restart nginx
+   ```
 
-```bash
-sudo ufw allow 'Nginx Full'
-```
+5.**Configure UFW to Allow Nginx**
 
-6.Configuring Security Group in AWS
+   If you're using UFW, allow Nginx:
 
-Adjust your EC2 instance's security group settings to allow inbound traffic on port 80 (HTTP) and optionally on port 443 (HTTPS) from your desired sources. This step is performed in the AWS Management Console.
+   ```bash
+   sudo ufw allow 'Nginx Full'
+   ```
+
+6.**Configuring Security Group in AWS**
+   Adjust your EC2 instance's security group settings to allow inbound traffic on port 80 (HTTP) and optionally on port 443 (HTTPS) from your desired sources. This step is performed in the AWS Management Console.
 
 This guide outlines each step required to deploy a Vue.js application on an EC2 instance, from setting up the server with Nginx to ensuring the application is accessible to users. The `vueapp.conf` configuration file plays a crucial role in directing Nginx to serve your Vue.js application correctly, facilitating both the serving of static files and support for SPA routing.
 
