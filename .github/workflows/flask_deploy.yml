@@ -47,5 +47,5 @@ jobs:
         port: 22
         script: |
           sudo pkill gunicorn
-          cd /home/ubuntu/backend/api_base/
+          cd /home/ubuntu/backend/api.base/
           gunicorn app:app -b 0.0.0.0:5000 --daemon
