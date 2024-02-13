@@ -75,7 +75,7 @@ class heroes(db.Model):
 @app.route('/')
 def hello_world():
     """Returns a simple greeting."""
-    return 'Hello, World!'
+    return 'Hello, Welcome to the DC Universe!'
 
 @app.route('/data')
 def get_data():
