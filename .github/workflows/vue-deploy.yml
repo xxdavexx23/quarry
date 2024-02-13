@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16' # Adjust according to your project's Node.js version. Note: As of my last update, Node.js 21 wasn't released; please adjust to the correct version.
+        node-version: '21' # Adjust according to your project's Node.js version. Note: As of my last update, Node.js 21 wasn't released; please adjust to the correct version.
 
     - name: Install and Build
       run: |
