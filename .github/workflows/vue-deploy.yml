@@ -16,13 +16,28 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '21' # Adjust according to your project's Node.js version. Note: As of my last update, Node.js 21 wasn't released; please adjust to the correct version.
+        node-version: '16' # Adjust according to your project's Node.js version. Correct this to match the version you're actually using.
 
     - name: Install and Build
       run: |
         cd frontend
         npm install
         npm run build
+
+    - name: Remove existing dist directory and replace
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          # Remove the existing dist directory
+          sudo rm -rf /var/www/html/dist/
+          # Ensure the parent directory has correct permissions before SCP transfer
+          sudo mkdir -p /var/www/html/dist/
+          sudo chown ubuntu:www-data /var/www/html/dist/
+          sudo chmod 775 /var/www/html/dist/
 
     - name: Copy dist to EC2
       uses: appleboy/scp-action@master
@@ -33,8 +48,9 @@ jobs:
         port: 22
         source: "frontend/dist/*"
         target: "/var/www/html/dist/"
+        overwrite: true # Ensure this is set to true to allow overwriting
 
-    - name: Set Permissions before Untar
+    - name: Correct Permissions and Reload Nginx
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
@@ -42,22 +58,9 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          # Ensure ubuntu user can modify files
-          sudo chown -R ubuntu:www-data /var/www/html/dist
-          sudo chmod -R 775 /var/www/html/dist
-
-    - name: Set Permissions and Reload Nginx
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ubuntu
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          # Reset correct permissions for the dist directory after deployment
-          sudo chown -R www-data:www-data /var/www/html/dist
-          sudo find /var/www/html/dist -type d -exec chmod 755 {} \;
-          sudo find /var/www/html/dist -type f -exec chmod 644 {} \;
-          
+          # Correct permissions for the dist directory after deployment
+          sudo chown -R www-data:www-data /var/www/html/dist/
+          sudo find /var/www/html/dist/ -type d -exec chmod 755 {} \;
+          sudo find /var/www/html/dist/ -type f -exec chmod 644 {} \;
           # Reload Nginx to apply any potential configuration changes
           sudo nginx -s reload
