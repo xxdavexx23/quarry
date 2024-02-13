@@ -46,7 +46,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
-        source: "dist/" 
+        source: "frontend/dist/*"
         target: "/var/www/html/"
     - name: Correct Permissions and Reload Nginx
       uses: appleboy/ssh-action@master
