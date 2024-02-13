@@ -63,6 +63,8 @@ onMounted(async () => {
     <p v-if="showError">An error occurred while fetching data.</p>
     <p>Testing CI</p>
     <!-- Data table for displaying fetched data -->
+    <img src="../assets/vue.svg" alt="Vue logo" />
+    <p>The above was added to test the ci pipline</p>
     <table>
       <thead>
         <tr>
