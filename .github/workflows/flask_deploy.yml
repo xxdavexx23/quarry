@@ -50,5 +50,5 @@ jobs:
           cd /home/ubuntu/backend/api.base/
           export DATABASE_URI=${{ secrets.DATABASE_URI }}
           export FLASK_SECRET_KEY=${{ secrets.FLASK_SECRET_KEY }}
-          /home/ubuntu/.local/bin/gunicorn --bind 0.0.0.0:5000 --daemon app:app
+          /home/ubuntu/.local/bin/gunicorn --bind 0.0.0.0:5000  app:app
 
