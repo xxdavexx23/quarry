@@ -31,7 +31,7 @@ jobs:
     - name: Copy updated application
       uses: appleboy/scp-action@master
       with:
-        host: ${{ secrets.EC2_HOST }}
+        host: ${{ secrets.EC2_HOST_APISERVER }}
         username: ubuntu
         key: ${{ secrets.APISERVER_SSH_PRIVATE_KEY }}
         port: 22
