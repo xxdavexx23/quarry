@@ -27,7 +27,7 @@ jobs:
     - name: Prepare deployment
       run: |
         # Create a temporary directory to hold what we want to deploy
-        mkdir -p deploy_temp
+        mkdir -p dist
         # Copy built dist content to this temporary directory
         cp -R frontend/dist/* dist/
 
