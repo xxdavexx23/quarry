@@ -36,7 +36,7 @@ jobs:
         key: ${{ secrets.APISERVER_SSH_PRIVATE_KEY }}
         port: 22
         source: "backend/*"
-        target: "/home/ubuntu/backend/"
+        target: "/home/ubuntu/"
 
     - name: Restart Flask application
       uses: appleboy/ssh-action@master
