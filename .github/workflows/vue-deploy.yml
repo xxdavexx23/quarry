@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16' # Adjust according to your project's Node.js version. Correct this to match the version you're actually using.
+        node-version: '21'
 
     - name: Install and Build
       run: |
@@ -46,9 +46,9 @@ jobs:
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
-        source: "frontend/dist/*"
+        source: "frontend/dist/" 
         target: "/var/www/html/dist/"
-        overwrite: true # Ensure this is set to true to allow overwriting
+        overwrite: true 
 
     - name: Correct Permissions and Reload Nginx
       uses: appleboy/ssh-action@master
