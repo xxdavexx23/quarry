@@ -46,10 +46,8 @@ jobs:
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
-        source: "frontend/dist/" 
+        source: "frontend/dist/*" 
         target: "/var/www/html/dist/"
-        overwrite: true 
-
     - name: Correct Permissions and Reload Nginx
       uses: appleboy/ssh-action@master
       with:
