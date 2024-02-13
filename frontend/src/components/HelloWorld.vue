@@ -61,6 +61,7 @@ onMounted(async () => {
     <h1>{{ msg }}</h1>
     <!-- Conditional rendering based on the showError ref -->
     <p v-if="showError">An error occurred while fetching data.</p>
+    <p>Testing CI/CD</p>
     <!-- Data table for displaying fetched data -->
     <table>
       <thead>
@@ -95,6 +96,9 @@ td {
   border: 1px solid #ddd; /* Border for table cells */
   padding: 8px; /* Padding for table cells */
   text-align: left; /* Text alignment for table cells */
+}
+p {
+  color: red; /* Paragraph color set to red */
 }
 </style>
 
