@@ -34,9 +34,9 @@ jobs:
     - name: Remove existing dist directory on EC2
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.EC2_HOST }}
+        host: ${{ secrets.EC2_WEBSERVER_HOST }}
         username: ubuntu
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        key: ${{ secrets.WEBSERVER_SSH_PRIVATE_KEY }}
         port: 22
         script: |
           sudo rm -rf /var/www/html/dist/
