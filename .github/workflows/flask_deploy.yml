@@ -1,0 +1,51 @@
+name: Deploy Flask Application
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.APISERVER_SSH_PRIVATE_KEY }}
+    
+    - name: Remove existing application
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST_APISERVER }}
+        username: ubuntu
+        key: ${{ secrets.APISERVER_SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          rm -rf /home/ubuntu/backend/*
+
+    - name: Copy updated application
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.APISERVER_SSH_PRIVATE_KEY }}
+        port: 22
+        source: "backend/*"
+        target: "/home/ubuntu/backend/"
+
+    - name: Restart Flask application
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          sudo pkill gunicorn
+          cd /home/ubuntu/backend/api_base/
+          gunicorn app:app -b 0.0.0.0:5000 --daemon
