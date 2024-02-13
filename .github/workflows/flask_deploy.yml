@@ -48,4 +48,5 @@ jobs:
         script: |
           sudo pkill gunicorn
           cd /home/ubuntu/backend/api.base/
+          source ~/.bashrc
           /home/ubuntu/.local/bin/gunicorn --bind 0.0.0.0:5000 app:app
