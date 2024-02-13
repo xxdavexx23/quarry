@@ -65,7 +65,7 @@ onMounted(async () => {
       <thead>
         <tr>
           <th>ID</th>
-          <th>Name</th>
+          <th>Hero</th>
         </tr>
       </thead>
       <tbody>
