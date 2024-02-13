@@ -24,7 +24,14 @@ jobs:
         npm install
         npm run build
 
-    - name: Remove existing dist directory and replace
+    - name: Prepare deployment
+      run: |
+        # Create a temporary directory to hold what we want to deploy
+        mkdir -p deploy_temp
+        # Copy built dist content to this temporary directory
+        cp -R frontend/dist/* dist/
+
+    - name: Remove existing dist directory on EC2
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
@@ -32,22 +39,20 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          # Remove the existing dist directory
           sudo rm -rf /var/www/html/dist/
-          # Ensure the parent directory has correct permissions before SCP transfer
-          sudo mkdir -p /var/www/html/
           sudo chown ubuntu:www-data /var/www/html/
           sudo chmod 775 /var/www/html/
 
-    - name: Copy dist to EC2
+    - name: Copy to EC2
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
-        source: "frontend/dist/*"
+        source: "dist/*"
         target: "/var/www/html/"
+
     - name: Correct Permissions and Reload Nginx
       uses: appleboy/ssh-action@master
       with:
@@ -56,9 +61,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          # Correct permissions for the dist directory after deployment
           sudo chown -R www-data:www-data /var/www/html/
           sudo find /var/www/html/ -type d -exec chmod 755 {} \;
           sudo find /var/www/html/ -type f -exec chmod 644 {} \;
-          # Reload Nginx to apply any potential configuration changes
           sudo nginx -s reload
