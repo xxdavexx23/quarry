@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '21' # Adjust according to your project's Node.js version
+        node-version: '16' # Adjust according to your project's Node.js version. Note: As of my last update, Node.js 21 wasn't released; please adjust to the correct version.
 
     - name: Install and Build
       run: |
@@ -34,6 +34,18 @@ jobs:
         source: "frontend/dist/*"
         target: "/var/www/html/dist/"
 
+    - name: Set Permissions before Untar
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          # Ensure ubuntu user can modify files
+          sudo chown -R ubuntu:www-data /var/www/html/dist
+          sudo chmod -R 775 /var/www/html/dist
+
     - name: Set Permissions and Reload Nginx
       uses: appleboy/ssh-action@master
       with:
@@ -42,7 +54,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          # Set correct permissions for the dist directory
+          # Reset correct permissions for the dist directory after deployment
           sudo chown -R www-data:www-data /var/www/html/dist
           sudo find /var/www/html/dist -type d -exec chmod 755 {} \;
           sudo find /var/www/html/dist -type f -exec chmod 644 {} \;
