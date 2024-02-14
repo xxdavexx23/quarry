@@ -58,7 +58,7 @@ jobs:
       with:
         host: ${{ secrets.EC2_WEBSERVER_HOST }}
         username: ubuntu
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        key: ${{ secrets.WEBSERVER_SSH_PRIVATE_KEY }}
         port: 22
         script: |
           sudo chown -R www-data:www-data /var/www/html/
