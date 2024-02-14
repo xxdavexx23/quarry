@@ -61,7 +61,7 @@ onMounted(async () => {
     <h1>{{ msg }}</h1>
     <!-- Conditional rendering based on the showError ref -->
     <p v-if="showError">An error occurred while fetching data.</p>
-    <h1>Testing for CI</h1>
+    <h1>Testing for CI/CD Pipeline Update</h1>
     <table>
       <thead>
         <tr>
