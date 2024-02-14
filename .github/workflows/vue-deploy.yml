@@ -56,7 +56,7 @@ jobs:
     - name: Correct Permissions and Reload Nginx
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.EC2_HOST }}
+        host: ${{ secrets.EC2_WEBSERVER_HOST }}
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
